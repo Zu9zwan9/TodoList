@@ -1,0 +1,62 @@
+generate module 
+
+nest g module name
+nest g controller name --no-spec
+nest g service name --no-spec
+
+inject the service into the controller*
+
+for unique ids: npm install --save uuid
+
+For Pipes
+npm install class-validator class-transformer --save
+https://github.com/typestack/class-validator#validation-decorators
+
+Type ORM
+npm install --save @nestjs/typeorm typeorm pg
+http://typeorm.delightful.studio/classes/_repository_repository_.repository.html#findone
+
+All the querys and db consults should be in the repository.ts. using an Injection
+
+Auth
+nest g module auth
+nest g controller auth --no-spec
+nest g service auth --no-spec
+
+Password validation
+https://gist.github.com/arielweinberger/18a29bfa17072444d45adaeeb8e92ddc
+@Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+
+Encrypt Passwords
+npm install bcrypt --save
+
+JWT and PassportJS (middleware)
+https://github.com/nestjs/jwt
+https://github.com/nestjs/passport
+
+npm install --save @nestjs/jwt @nestjs/passport passport passport-jwt
+
+Site to insert JWT
+https://jwt.io/
+//Usar interface porque se va a usar transversalmente.
+
+Logger: https://docs.nestjs.com/techniques/logger
+
+Windows: Environment Variables
+npm install -g win-node-env
+
+npm install config
+
+Run with environment Variables
+PORT=3005 npm run start:dev
+
+default.yml is available in all environments
+
+Modify bcrupt for production or will fail
+npm uninstall bcrypt
+npm install bcryptjs --save
+
+Modify user.entity.ts and user.repository.ts
+
+Before Deploying to Production
+npm run prestart:prod
