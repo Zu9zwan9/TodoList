@@ -15,7 +15,7 @@ services:
       - todo-network
     volumes:
       - mongotodo:/data/db
-  todoapi:
+  todo-api:
     build:
       dockerfile: Dockerfile
       context: .
@@ -25,7 +25,7 @@ services:
       - .env
     restart: on-failure
     ports:
-      - "3500:3500"
+      - "3500:3000"
     depends_on:
       - mongotodo
 volumes:
@@ -33,3 +33,5 @@ volumes:
 networks:
   todo-network:
     driver: bridge
+
+

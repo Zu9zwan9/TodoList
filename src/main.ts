@@ -1,22 +1,19 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
-import * as config from 'config';
+import { WinstonModule } from 'nest-winston';
+import { GetWinstonConfig } from './common/config/winston.config';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const logger = new Logger('bootstrap');
-  const app = await NestFactory.create(AppModule);
-  const serverConfig = config.get('server');
-
-  if (process.env.NODE_ENV === 'development') {
-    app.enableCors();
-  } else {
-    app.enableCors({ origin: serverConfig.origin })
-    logger.log(`Accepting requests from origin "${serverConfig.origin}"`);
-  }
-
-  const port = process.env.PORT || serverConfig.port;
-  await app.listen(port);
-  logger.log(`Application listening on port ${port}`);
+  const app = await NestFactory.create(AppModule, {
+    // Replace default nest logger to winston logger
+    logger: WinstonModule.createLogger(GetWinstonConfig()),
+  });
+  // Set global validation
+  app.useGlobalPipes(new ValidationPipe());
+  // Added global prefix for routes
+  app.setGlobalPrefix('api');
+  // Start app
+  await app.listen(3500);
 }
 bootstrap();
