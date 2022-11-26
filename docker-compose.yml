@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  mongotodo:
+    image: mongo:latest
+    container_name: mongotodo
+    restart: on-failure
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - "27030:27017"
+    networks:
+      - todo-network
+    volumes:
+      - mongotodo:/data/db
+  todoapi:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    networks:
+      - todo-network
+    env_file:
+      - .env
+    restart: on-failure
+    ports:
+      - "3500:3500"
+    depends_on:
+      - mongotodo
+volumes:
+  mongotodo:
+networks:
+  todo-network:
+    driver: bridge
